@@ -1,0 +1,19 @@
+Package: ppcount
+Type: Package
+Title: Posterior Probability Counter
+Version: 0.1.0
+Author: Simon Greenhill
+Maintainer: Simon Greenhill <simon@simon.net.nz>
+Description: ...
+License: BSD
+Encoding: UTF-8
+LazyData: true
+Imports:
+    ape,
+    picante,
+    tibble
+Suggests: 
+    testthat,
+    covr
+URL: https://github.com/SimonGreenhill/ppcount
+BugReports: https://github.com/SimonGreenhill/ppcount/issues
