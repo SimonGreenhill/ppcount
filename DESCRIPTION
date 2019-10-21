@@ -5,12 +5,13 @@ Version: 0.1.0
 Author: Simon Greenhill
 Maintainer: Simon Greenhill <simon@simon.net.nz>
 Description: ...
-License: BSD
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
     ape,
     picante,
+    stats,
     tibble
 Suggests: 
     testthat,
