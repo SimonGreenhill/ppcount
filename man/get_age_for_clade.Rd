@@ -4,14 +4,14 @@
 \alias{get_age_for_clade}
 \title{Extracts the age of a given clade group from the tree.}
 \usage{
-get_age_for_clade(tree, ages, clade)
+get_age_for_clade(tree, clade, ages = NULL)
 }
 \arguments{
 \item{tree}{the phylogeny}
 
 \item{clade}{the clade label}
 
-\item{age}{An age dataframe from `get_ages`}
+\item{ages}{An age dataframe from `get_ages` (define this to speed up repeated evaluation)}
 }
 \value{
 float.
@@ -20,7 +20,5 @@ float.
 Extracts the age of a given clade group from the tree.
 }
 \examples{
-tree <- ape::rtree(5)
-ages <- get_ages(tree)
-get_age_for_clade(tree, ages, c('t1', 't3'))
+get_age_for_clade(ape::rtree(5), c('t1', 't3'))
 }

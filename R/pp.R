@@ -34,6 +34,7 @@ get_ages <- function(tree) {
 #' @param tree the phylogeny
 #' @param clade the clade label
 #' @param ages An age dataframe from `get_ages` (define this to speed up repeated evaluation)
+#' @importFrom stats median
 #' @return float.
 #' @export
 #' @examples
@@ -72,7 +73,8 @@ read_clade_file <- function(filename) {
 #' Extracts a dataframe (as tibble) for all the clades from a given tree (or list
 #' of trees).
 #' @param clades a list of clades
-#' @param tree the phylogeny
+#' @param trees the phylogeny
+#' @param verbose show progress messages or not
 #' @return dataframe(tibble)
 #' @export
 #' @examples
@@ -111,12 +113,12 @@ process_trees <- function(clades, trees, verbose=FALSE) {
 
 #' Returns a tibble of the nodeheights for the given tree.
 #' @param tree the phylogeny
-#' @param node the node number
 #' @return A data frame (as tibble) of Node Ages.
+#' @importFrom stats median
 #' @export
 #' @examples
 #' tree <- ape::read.tree(text = "((t4:1,t5:2):3,((t3:4,t1:5):6,t2:7):8);")
-#' get_nodeheights(tree)
+#' get_nodeages(tree)
 get_nodeages <- function(tree) {
     ages <- get_ages(tree)
     nodes <- sort(unique(ages$parental.node))

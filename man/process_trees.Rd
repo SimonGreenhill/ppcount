@@ -10,7 +10,9 @@ process_trees(clades, trees, verbose = FALSE)
 \arguments{
 \item{clades}{a list of clades}
 
-\item{tree}{the phylogeny}
+\item{trees}{the phylogeny}
+
+\item{verbose}{show progress messages or not}
 }
 \value{
 dataframe(tibble)

@@ -18,4 +18,4 @@ Suggests:
     covr
 URL: https://github.com/SimonGreenhill/ppcount
 BugReports: https://github.com/SimonGreenhill/ppcount/issues
-RoxygenNote: 6.1.0
+RoxygenNote: 7.1.1
