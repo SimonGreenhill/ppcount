@@ -17,29 +17,29 @@ get_ages <- function(tree) {
     tree <- picante::node.age(tree)
     BL.position <- cbind(tree$edge, tree$age, tree$edge.length)
     dist.tip <- max(tree$age) - BL.position[,3]
-    node.ages <- cbind(BL.position, dist.tip)
-    node.ages <- cbind(node.ages, node.ages[,5] + node.ages[,4])
-    node.ages <- as.data.frame(node.ages)
-    names(node.ages) <- c("parental.node", "daughter.node", "dist.root", "BL", "dist.tip","mrca.age")
+    ages <- cbind(BL.position, dist.tip)
+    ages <- cbind(ages, ages[,5] + ages[,4])
+    ages <- as.data.frame(ages)
+    names(ages) <- c("parental.node", "daughter.node", "dist.root", "BL", "dist.tip","mrca.age")
 
-    node.ages$Label <- rownames(node.ages)
-    node.ages[c(node.ages[, 2] < length(tree$tip) + 1), 'Label'] <- tree$tip.label
-    node.ages <- tibble::as_tibble(node.ages)
-    node.ages <- tibble::column_to_rownames(node.ages, 'Label')
-    node.ages
+    ages$Label <- rownames(ages)
+    ages[c(ages[, 2] < length(tree$tip) + 1), 'Label'] <- tree$tip.label
+    ages <- tibble::as_tibble(ages)
+    ages <- tibble::column_to_rownames(ages, 'Label')
+    ages
 }
 
 
 #' Extracts the age of a given clade group from the tree.
 #' @param tree the phylogeny
-#' @param age An age dataframe from `get_ages`
 #' @param clade the clade label
+#' @param ages An age dataframe from `get_ages` (define this to speed up repeated evaluation)
 #' @return float.
+#' @export
 #' @examples
-#' tree <- ape::rtree(5)
-#' ages <- get_ages(tree)
-#' get_age_for_clade(tree, ages, c('t1', 't3'))
-get_age_for_clade <- function(tree, ages, clade) {
+#' get_age_for_clade(ape::rtree(5), c('t1', 't3'))
+get_age_for_clade <- function(tree, clade, ages=NULL) {
+    if (is.null(ages)) { ages <- get_ages(tree) }
     node <- as.character(ape::getMRCA(tree, clade))
     m <- ages[ages['parental.node']  == node, 'mrca.age']
     stats::median(m)
@@ -91,7 +91,7 @@ process_trees <- function(clades, trees, verbose=FALSE) {
             n <- length(clades[[clade]])
             if (n > 1) {
                 m <- ape::is.monophyletic(trees[[i]], clades[[clade]])
-                a <- get_age_for_clade(trees[[i]], ages, clades[[clade]])
+                a <- get_age_for_clade(trees[[i]], clades[[clade]], ages)
             } else {
                 m <- 1
                 a <- ages[clades[[clade]][[1]], 'mrca.age']
@@ -106,4 +106,25 @@ process_trees <- function(clades, trees, verbose=FALSE) {
         }
     }
     df
+}
+
+
+#' Returns a tibble of the nodeheights for the given tree.
+#' @param tree the phylogeny
+#' @param node the node number
+#' @return A data frame (as tibble) of Node Ages.
+#' @export
+#' @examples
+#' tree <- ape::read.tree(text = "((t4:1,t5:2):3,((t3:4,t1:5):6,t2:7):8);")
+#' get_nodeheights(tree)
+get_nodeages <- function(tree) {
+    ages <- get_ages(tree)
+    nodes <- sort(unique(ages$parental.node))
+    get_age <- function(a) { median(ages[ages$parental.node == a, 'mrca.age']) }
+    get_tips <- function(a) { toString(sort(ape::extract.clade(tree, a)$tip.label)) }
+    tibble::tibble(
+        node=nodes,
+        age=sapply(nodes, get_age),
+        tips=sapply(nodes, get_tips)
+    )
 }

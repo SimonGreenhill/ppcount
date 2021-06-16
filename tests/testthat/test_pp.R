@@ -61,10 +61,20 @@ test_that("Test get_ages - tips", {
 context("Test get_ages - nodes - get_age_for_clade")
 test_that("Test get_ages - nodes - get_age_for_clade", {
     ages <- get_ages(tree)
-    expect_equal(get_age_for_clade(tree, ages, c('t1', 't3')), 5)  # node 9
-    expect_equal(get_age_for_clade(tree, ages, c('t1', 't3', 't2')), 11)  # node 8
-    expect_equal(get_age_for_clade(tree, ages, c('t4', 't5')), 16)  # node 7
-    expect_equal(get_age_for_clade(tree, ages, c('t1', 't2', 't3', 't4', 't5')), 19)  # node 6
+    expect_equal(get_age_for_clade(tree, c('t1', 't3'), ages), 5)  # node 9
+    expect_equal(get_age_for_clade(tree, c('t1', 't3', 't2'), ages), 11)  # node 8
+    expect_equal(get_age_for_clade(tree, c('t4', 't5'), ages), 16)  # node 7
+    expect_equal(get_age_for_clade(tree, c('t1', 't2', 't3', 't4', 't5'), ages), 19)  # node 6
+})
+
+
+context("Test get_ages - nodes - get_age_for_clade (ladderized tree)")
+test_that("Test get_ages - nodes - get_age_for_clade (ladderized tree)", {
+    ages <- get_ages(ape::ladderize(tree))
+    expect_equal(get_age_for_clade(tree, c('t1', 't3'), ages), 5)  # node 9
+    expect_equal(get_age_for_clade(tree, c('t1', 't3', 't2'), ages), 11)  # node 8
+    expect_equal(get_age_for_clade(tree, c('t4', 't5'), ages), 16)  # node 7
+    expect_equal(get_age_for_clade(tree, c('t1', 't2', 't3', 't4', 't5'), ages), 19)  # node 6
 })
 
 
@@ -94,3 +104,40 @@ test_that("Test process_trees", {
     expect_equal(res[res$Clade == 't1t3',]$Age, c(5))
 })
 
+
+context("Test get_nodeages")
+test_that("Test get_nodeages", {
+
+    nh <- get_nodeages(tree)
+
+        expect_equal(nh[nh$node == 6, 'tips'][[1]], 't1, t2, t3, t4, t5')
+    expect_equal(nh[nh$node == 6, 'age'][[1]], 19)
+
+    expect_equal(nh[nh$node == 7, 'tips'][[1]], 't4, t5')
+    expect_equal(nh[nh$node == 7, 'age'][[1]], 16)
+
+    expect_equal(nh[nh$node == 8, 'tips'][[1]], 't1, t2, t3')
+    expect_equal(nh[nh$node == 8, 'age'][[1]], 11)
+
+    expect_equal(nh[nh$node == 9, 'tips'][[1]], 't1, t3')
+    expect_equal(nh[nh$node == 9, 'age'][[1]], 5)
+})
+
+
+context("Test get_nodeages (ladderized tree)")
+test_that("Test get_nodeages (ladderized tree)", {
+
+    nh <- get_nodeages(ape::ladderize(tree))
+
+    expect_equal(nh[nh$node == 6, 'tips'][[1]], 't1, t2, t3, t4, t5')
+    expect_equal(nh[nh$node == 6, 'age'][[1]], 19)
+
+    expect_equal(nh[nh$node == 7, 'tips'][[1]], 't4, t5')
+    expect_equal(nh[nh$node == 7, 'age'][[1]], 16)
+
+    expect_equal(nh[nh$node == 8, 'tips'][[1]], 't1, t2, t3')
+    expect_equal(nh[nh$node == 8, 'age'][[1]], 11)
+
+    expect_equal(nh[nh$node == 9, 'tips'][[1]], 't1, t3')
+    expect_equal(nh[nh$node == 9, 'age'][[1]], 5)
+})
