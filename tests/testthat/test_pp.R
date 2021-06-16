@@ -65,6 +65,10 @@ test_that("Test get_ages - nodes - get_age_for_clade", {
     expect_equal(get_age_for_clade(tree, c('t1', 't3', 't2'), ages), 11)  # node 8
     expect_equal(get_age_for_clade(tree, c('t4', 't5'), ages), 16)  # node 7
     expect_equal(get_age_for_clade(tree, c('t1', 't2', 't3', 't4', 't5'), ages), 19)  # node 6
+
+    # without ages parameter
+    expect_equal(get_age_for_clade(tree, c('t1', 't3')), 5)  # node 9
+
 })
 
 
@@ -75,6 +79,10 @@ test_that("Test get_ages - nodes - get_age_for_clade (ladderized tree)", {
     expect_equal(get_age_for_clade(tree, c('t1', 't3', 't2'), ages), 11)  # node 8
     expect_equal(get_age_for_clade(tree, c('t4', 't5'), ages), 16)  # node 7
     expect_equal(get_age_for_clade(tree, c('t1', 't2', 't3', 't4', 't5'), ages), 19)  # node 6
+
+    # without ages parameter
+    expect_equal(get_age_for_clade(tree, c('t1', 't3')), 5)  # node 9
+
 })
 
 
