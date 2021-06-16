@@ -1,4 +1,5 @@
 #' Returns a table of tips and nodes in the tree and their relevant ages.
+#'
 #' The columns are:
 #'    parental.node - the parent node
 #'    daughter.node - the daughter node
@@ -111,7 +112,7 @@ process_trees <- function(clades, trees, verbose=FALSE) {
 }
 
 
-#' Returns a tibble of the nodeheights for the given tree.
+#' Returns a tibble of the node ages for the given tree.
 #' @param tree the phylogeny
 #' @return A data frame (as tibble) of Node Ages.
 #' @importFrom stats median

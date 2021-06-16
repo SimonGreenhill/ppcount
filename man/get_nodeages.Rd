@@ -2,7 +2,7 @@
 % Please edit documentation in R/pp.R
 \name{get_nodeages}
 \alias{get_nodeages}
-\title{Returns a tibble of the nodeheights for the given tree.}
+\title{Returns a tibble of the node ages for the given tree.}
 \usage{
 get_nodeages(tree)
 }
@@ -13,7 +13,7 @@ get_nodeages(tree)
 A data frame (as tibble) of Node Ages.
 }
 \description{
-Returns a tibble of the nodeheights for the given tree.
+Returns a tibble of the node ages for the given tree.
 }
 \examples{
 tree <- ape::read.tree(text = "((t4:1,t5:2):3,((t3:4,t1:5):6,t2:7):8);")

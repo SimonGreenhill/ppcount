@@ -1,7 +1,7 @@
 # ppcount: extract ages and posterior probabilities from a phylogenetic tree set.
 
-The goal of ppcount is to get the age and posterior probability of given clades from a
-posterior probability distribution of phylogenies.
+The goal of ppcount is to get the age and posterior probability of 
+given clades from a posterior probability distribution of phylogenies.
 
 ## Installation
 
