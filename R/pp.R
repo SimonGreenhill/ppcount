@@ -14,8 +14,14 @@
 #' @examples
 #' get_ages(ape::rtree(4))
 get_ages <- function(tree) {
+    # this fixes the error with ladderized trees see here for more details:
+    # https://markmail.org/thread/aiwardimvsej6vby#query:+page:1+mid:hcrazszdj2fo2i7z+state:results
+    attr(tree, "order") <- NULL
+    tree <- reorder(tree)
+
     # see https://grokbase.com/t/r/r-sig-phylo/116m5s3fr4/r-nodes-and-taxa-depth
     tree <- picante::node.age(tree)
+
     BL.position <- cbind(tree$edge, tree$age, tree$edge.length)
     dist.tip <- max(tree$age) - BL.position[,3]
     ages <- cbind(BL.position, dist.tip)
@@ -41,6 +47,13 @@ get_ages <- function(tree) {
 #' @examples
 #' get_age_for_clade(ape::rtree(5), c('t1', 't3'))
 get_age_for_clade <- function(tree, clade, ages=NULL) {
+    if (length(setdiff(clade, tree$tip.label)) > 0) {
+        stop(
+            paste("Invalid taxon in clade:",
+            paste(setdiff(clade, tree$tip.label), collapse=", ")
+        ))
+    }
+
     if (is.null(ages)) { ages <- get_ages(tree) }
     node <- as.character(ape::getMRCA(tree, clade))
     m <- ages[ages['parental.node']  == node, 'mrca.age']

@@ -69,6 +69,10 @@ test_that("Test get_ages - nodes - get_age_for_clade", {
     # without ages parameter
     expect_equal(get_age_for_clade(tree, c('t1', 't3')), 5)  # node 9
 
+    # invalid taxa name
+    expect_error(get_age_for_clade(tree, c('t1', 'X'), ages), 'Invalid taxon in clade: X')
+
+
 })
 
 
@@ -118,7 +122,7 @@ test_that("Test get_nodeages", {
 
     nh <- get_nodeages(tree)
 
-        expect_equal(nh[nh$node == 6, 'tips'][[1]], 't1, t2, t3, t4, t5')
+    expect_equal(nh[nh$node == 6, 'tips'][[1]], 't1, t2, t3, t4, t5')
     expect_equal(nh[nh$node == 6, 'age'][[1]], 19)
 
     expect_equal(nh[nh$node == 7, 'tips'][[1]], 't4, t5')
