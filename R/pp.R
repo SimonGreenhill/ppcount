@@ -100,6 +100,13 @@ process_trees <- function(clades, trees, verbose=FALSE) {
         trees <- list(trees); class(trees) <- 'multiPhylo'
     }
 
+    # check tip labels
+    for (clade in names(clades)) {
+        if (any(clades[[clade]] %in% trees[[1]]$tip.label == FALSE)) {
+            stop("")
+        }
+    }
+
     df <- NULL
     for (i in 1:length(trees)) {
         ages <- get_ages(trees[[i]])
