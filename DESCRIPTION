@@ -12,7 +12,8 @@ Imports:
     ape,
     picante,
     stats,
-    tibble
+    tibble,
+    treeio
 Suggests: 
     testthat,
     covr

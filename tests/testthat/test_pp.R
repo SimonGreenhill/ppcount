@@ -153,3 +153,30 @@ test_that("Test get_nodeages (ladderized tree)", {
     expect_equal(nh[nh$node == 9, 'tips'][[1]], 't1, t3')
     expect_equal(nh[nh$node == 9, 'age'][[1]], 5)
 })
+
+
+
+context("Test get_ages (rescaled)")
+test_that("Test get_ages (rescaled * 10)", {
+    ages <- get_ages(rescale_tree(tree, 10))
+    expect_equal(ages['t1', 'mrca.age'], 50)
+    expect_equal(ages['t3', 'mrca.age'], 50)
+    expect_equal(ages['t2', 'mrca.age'], 110)
+    expect_equal(ages['t4', 'mrca.age'], 160)
+    expect_equal(ages['t5', 'mrca.age'], 160)
+})
+
+
+context("Test get_nodeages (rescaled * 10)")
+test_that("Test get_nodeages (rescaled * 10)", {
+    nh <- get_nodeages(rescale_tree(tree, 10))
+    expect_equal(nh[nh$node == 6, 'tips'][[1]], 't1, t2, t3, t4, t5')
+    expect_equal(nh[nh$node == 6, 'age'][[1]], 190)
+    expect_equal(nh[nh$node == 7, 'tips'][[1]], 't4, t5')
+    expect_equal(nh[nh$node == 7, 'age'][[1]], 160)
+    expect_equal(nh[nh$node == 8, 'tips'][[1]], 't1, t2, t3')
+    expect_equal(nh[nh$node == 8, 'age'][[1]], 110)
+    expect_equal(nh[nh$node == 9, 'tips'][[1]], 't1, t3')
+    expect_equal(nh[nh$node == 9, 'age'][[1]], 50)
+})
+
