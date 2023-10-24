@@ -1,7 +1,7 @@
 Package: ppcount
 Type: Package
 Title: Posterior Probability Counter
-Version: 0.2.0
+Version: 0.3.0
 Author: Simon Greenhill
 Maintainer: Simon Greenhill <simon@simon.net.nz>
 Description: ...
