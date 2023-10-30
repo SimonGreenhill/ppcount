@@ -15,10 +15,10 @@ rescale_tree <- function(tree, scaler) {
                 if (startsWith(col, prefix)) {
                     if (length(tree@data[[col]][[1]]) == 1) {
                         # single values
-                        tree@data[[col]] <- as.numeric(tree@data[[col]]) * scaler
+                        tree@data[[col]] <- rescale(prefix, scaler, as.numeric(tree@data[[col]]))
                     } else {
                         # multiple values (e.g. _range columns)
-                        tree@data[[col]] <- lapply(tree@data[[col]], function(x) as.numeric(x) * scaler)
+                        tree@data[[col]] <- lapply(tree@data[[col]], function(x) rescale(prefix, scaler, as.numeric(x)))
                     }
                 }
             }
@@ -27,4 +27,14 @@ rescale_tree <- function(tree, scaler) {
         stop(sprintf("Unhandled tree type '%s'", class(tree)))
     }
     tree
+}
+
+
+rescale <- function(coltype, scaler, values) {
+    if (coltype == 'rate') {
+        values <- values / scaler
+    } else {
+        values <- values * scaler
+    }
+    values
 }

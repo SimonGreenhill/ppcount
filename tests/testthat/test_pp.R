@@ -12,7 +12,7 @@ taxset t1t2t3t4t5  = t1 t2 t3 t4 t5;
 taxset t1 = t1;
 taxset t2 = t2;
 "
-context("Tests - setup")
+
 tree <- ape::read.tree(text = sTREE)
 
 tmp <- tempfile()
@@ -29,7 +29,7 @@ test_that("Test that the tree is loaded correctly", {
     expect_equal(5, length(tree$tip.label))
 })
 
-context("Tests - read_clade_file")
+
 test_that("Test read_clade_file", {
     clades <- read_clade_file(tmp)
     expected <- list(
@@ -47,7 +47,6 @@ test_that("Test read_clade_file", {
 })
 
 
-context("Test get_ages - tips")
 test_that("Test get_ages - tips", {
     ages <- get_ages(tree)
     expect_equal(ages['t1', 'mrca.age'], 5)
@@ -58,7 +57,6 @@ test_that("Test get_ages - tips", {
 })
 
 
-context("Test get_ages - nodes - get_age_for_clade")
 test_that("Test get_ages - nodes - get_age_for_clade", {
     ages <- get_ages(tree)
     expect_equal(get_age_for_clade(tree, c('t1', 't3'), ages), 5)  # node 9
@@ -71,12 +69,9 @@ test_that("Test get_ages - nodes - get_age_for_clade", {
 
     # invalid taxa name
     expect_error(get_age_for_clade(tree, c('t1', 'X'), ages), 'Invalid taxon in clade: X')
-
-
 })
 
 
-context("Test get_ages - nodes - get_age_for_clade (ladderized tree)")
 test_that("Test get_ages - nodes - get_age_for_clade (ladderized tree)", {
     ages <- get_ages(ape::ladderize(tree))
     expect_equal(get_age_for_clade(tree, c('t1', 't3'), ages), 5)  # node 9
@@ -90,7 +85,6 @@ test_that("Test get_ages - nodes - get_age_for_clade (ladderized tree)", {
 })
 
 
-context("Test process_trees")
 test_that("Test process_trees", {
     clades <- read_clade_file(tmp)
     trees <- c(tree, tree)
@@ -117,7 +111,6 @@ test_that("Test process_trees", {
 })
 
 
-context("Test get_nodeages")
 test_that("Test get_nodeages", {
 
     nh <- get_nodeages(tree)
@@ -136,7 +129,6 @@ test_that("Test get_nodeages", {
 })
 
 
-context("Test get_nodeages (ladderized tree)")
 test_that("Test get_nodeages (ladderized tree)", {
 
     nh <- get_nodeages(ape::ladderize(tree))
@@ -155,8 +147,6 @@ test_that("Test get_nodeages (ladderized tree)", {
 })
 
 
-
-context("Test get_ages (rescaled)")
 test_that("Test get_ages (rescaled * 10)", {
     ages <- get_ages(rescale_tree(tree, 10))
     expect_equal(ages['t1', 'mrca.age'], 50)
@@ -167,7 +157,6 @@ test_that("Test get_ages (rescaled * 10)", {
 })
 
 
-context("Test get_nodeages (rescaled * 10)")
 test_that("Test get_nodeages (rescaled * 10)", {
     nh <- get_nodeages(rescale_tree(tree, 10))
     expect_equal(nh[nh$node == 6, 'tips'][[1]], 't1, t2, t3, t4, t5')
