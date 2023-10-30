@@ -14,13 +14,16 @@ rescale_tree <- function(tree, scaler) {
             for (prefix in c("height", "rate", "length")) {
                 if (startsWith(col, prefix)) {
                     if (length(tree@data[[col]][[1]]) == 1) {
+                        print((col, 'a'))
                         # single values
                         tree@data[[col]] <- tree@data[[col]] * scaler
                     } else {
+                        print((col, 'b'))
                         # multiple values (e.g. _range columns)
                         tree@data[[col]] <- lapply(tree@data[[col]], function(x) x * scaler)
                     }
                 }
+                print((col, 'c'))
             }
         }
     } else {
