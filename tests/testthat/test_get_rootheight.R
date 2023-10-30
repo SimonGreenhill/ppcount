@@ -1,4 +1,3 @@
-
 test_that("Test get_rootheight - ape::phylo", {
     age <- get_rootheight(ape::read.nexus("test_rescale_tree.trees"))
     expect_equal(age, 998.4147457347)
