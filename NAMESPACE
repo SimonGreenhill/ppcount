@@ -3,6 +3,7 @@
 export(get_age_for_clade)
 export(get_ages)
 export(get_nodeages)
+export(get_rootheight)
 export(process_trees)
 export(read_clade_file)
 export(rescale_tree)

@@ -14,6 +14,8 @@
 #' @examples
 #' get_ages(ape::rtree(4))
 get_ages <- function(tree) {
+    if (class(tree) == 'treedata') { tree <- tree@phylo }
+    
     # this fixes the error with ladderized trees see here for more details:
     # https://markmail.org/thread/aiwardimvsej6vby#query:+page:1+mid:hcrazszdj2fo2i7z+state:results
     attr(tree, "order") <- NULL
@@ -47,6 +49,8 @@ get_ages <- function(tree) {
 #' @examples
 #' get_age_for_clade(ape::rtree(5), c('t1', 't3'))
 get_age_for_clade <- function(tree, clade, ages=NULL) {
+    if (class(tree) == 'treedata') { tree <- tree@phylo }
+    
     if (length(setdiff(clade, tree$tip.label)) > 0) {
         stop(
             paste("Invalid taxon in clade:",
@@ -96,6 +100,8 @@ read_clade_file <- function(filename) {
 #' clades <- list(A = c('t1', 't3'), B = c('t1', 't2', 't3'))
 #' process_trees(clades, tree)
 process_trees <- function(clades, trees, verbose=FALSE) {
+    if (class(trees) == 'treedata') { trees <- trees@phylo }
+    
     if (class(trees) == 'phylo') {  # handle singleton case
         trees <- list(trees); class(trees) <- 'multiPhylo'
     }
@@ -141,6 +147,8 @@ process_trees <- function(clades, trees, verbose=FALSE) {
 #' tree <- ape::read.tree(text = "((t4:1,t5:2):3,((t3:4,t1:5):6,t2:7):8);")
 #' get_nodeages(tree)
 get_nodeages <- function(tree) {
+    if (class(tree) == 'treedata') { tree <- tree@phylo }
+    
     ages <- get_ages(tree)
     nodes <- sort(unique(ages$parental.node))
     get_age <- function(a) { median(ages[ages$parental.node == a, 'mrca.age']) }
