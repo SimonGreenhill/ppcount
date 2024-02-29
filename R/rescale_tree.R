@@ -8,6 +8,9 @@
 rescale_tree <- function(tree, scaler) {
     if (class(tree) == 'phylo') {
         tree$edge.length <- tree$edge.length * scaler
+    } else if (class(tree) == 'multiPhylo') {
+        tree <- lapply(tree, function(t) rescale_tree(t, scaler))
+        class(tree) <- 'multiPhylo'
     } else if (class(tree) == 'treedata') {
         tree@phylo$edge.length <- tree@phylo$edge.length * scaler
         for (col in colnames(tree@data)) {

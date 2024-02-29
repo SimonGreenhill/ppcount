@@ -18,6 +18,23 @@ test_that("Test rescale_tree - ape::phylo (scaled=1000)", {
 })
 
 
+test_that("Test rescale_tree - ape::multiphylo", {
+    trees <- c(
+        ape::read.tree(text = "((t4:1,t5:2):3,((t3:4,t1:5):6,t2:7):8);"),
+        ape::read.tree(text = "((t4:1,t5:2):3,((t3:4,t1:5):6,t2:7):8);"),
+        ape::read.tree(text = "((t4:1,t5:2):3,((t3:4,t1:5):6,t2:7):8);")
+    )
+    class(trees) <- 'multiPhylo'
+    trees.rescaled <- rescale_tree(trees, 1000)
+    for (i in 1:3) {
+        expect_equal(trees.rescaled[[i]]$edge.length / 1000, trees[[i]]$edge.length)
+    }
+    expect_equal(class(trees), class(trees.rescaled))
+    expect_equal(class(trees.rescaled), 'multiPhylo')
+})
+
+
+
 test_that("Test rescale_tree - treeio::treedata - identical", {
     tree <- treeio::read.beast("test_rescale_tree.trees")
     expect_equal(tree@phylo$edge.length, rescale_tree(tree, 1)@phylo$edge.length)
