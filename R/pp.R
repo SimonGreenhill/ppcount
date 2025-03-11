@@ -1,12 +1,12 @@
 #' Returns a table of tips and nodes in the tree and their relevant ages.
 #'
 #' The columns are:
-#'    parental.node - the parent node
-#'    daughter.node - the daughter node
-#'    dist.root - the distance from the root
-#'    BL - this branch length
-#'    dist.tip - the distance of the tip.
-#'    mrca.age - age of the most recent common ancestor
+#'   - parental.node - the parent node
+#'   - daughter.node - the daughter node
+#'   - dist.root - the distance from the root
+#'   - BL - this branch length (mrca.age - dist.tip)
+#'   - dist.tip - the distance of the tip.
+#'   - mrca.age - age of the most recent common ancestor (BL + dist.tip)
 #' @param tree the phylogeny
 #' @return A data frame (as tibble) of Node and Tip Ages.
 #' @note taken from https://grokbase.com/t/r/r-sig-phylo/116m5s3fr4/r-nodes-and-taxa-depth
@@ -109,7 +109,7 @@ process_trees <- function(clades, trees, verbose=FALSE) {
     # check tip labels
     for (clade in names(clades)) {
         if (any(clades[[clade]] %in% trees[[1]]$tip.label == FALSE)) {
-            stop("")
+            stop("taxa in clades but not in trees!")
         }
     }
 
