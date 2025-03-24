@@ -14,12 +14,12 @@ A data frame (as tibble) of Node and Tip Ages.
 }
 \description{
 The columns are:
-   parental.node - the parent node
-   daughter.node - the daughter node
-   dist.root - the distance from the root
-   BL - this branch length
-   dist.tip - the distance of the tip.
-   mrca.age - age of the most recent common ancestor
+  - parental.node - the parent node
+  - daughter.node - the daughter node
+  - dist.root - the distance from the root
+  - BL - this branch length (mrca.age - dist.tip)
+  - dist.tip - the distance of the tip.
+  - mrca.age - age of the most recent common ancestor (BL + dist.tip)
 }
 \note{
 taken from https://grokbase.com/t/r/r-sig-phylo/116m5s3fr4/r-nodes-and-taxa-depth

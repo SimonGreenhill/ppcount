@@ -13,3 +13,13 @@ test_that("Test get_rootheight - non-ultrametric", {
     age <- get_rootheight(tree)
     expect_equal(age, 1.47816042)
 })
+
+
+test_that("Test get_rootheight - ape::multiPhylo", {
+    tree <- ape::read.nexus("test_rescale_tree.trees")
+    trees <- c(tree, tree, tree)
+    class(trees) <- 'multiPhylo'
+    
+    age <- get_rootheight(trees)
+    expect_equal(age, rep(998.4147457347, 3))
+})

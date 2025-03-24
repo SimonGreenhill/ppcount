@@ -7,7 +7,9 @@
 rescale_tree(tree, scaler)
 }
 \arguments{
-\item{tree}{the phylogeny (treeio )}
+\item{tree}{the phylogeny (treeio:treedata, ape::phylo, or ape::multiPhylo)}
+
+\item{scaler}{a numeric value to rescale tree by}
 }
 \value{
 a phylogeny or a tree

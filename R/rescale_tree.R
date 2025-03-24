@@ -1,17 +1,18 @@
 #' Rescales a tree
 #'
-#' @param tree the phylogeny (treeio )
+#' @param tree the phylogeny (treeio:treedata, ape::phylo, or ape::multiPhylo)
+#' @param scaler a numeric value to rescale tree by
 #' @return a phylogeny or a tree
 #' @export
 #' @examples
 #' tree <- rescale_tree(ape::rtree(4), scaler=10)
 rescale_tree <- function(tree, scaler) {
-    if (class(tree) == 'phylo') {
+    if (inherits(tree, 'phylo')) {
         tree$edge.length <- tree$edge.length * scaler
-    } else if (class(tree) == 'multiPhylo') {
+    } else if (inherits(tree, 'multiPhylo')) {
         tree <- lapply(tree, function(t) rescale_tree(t, scaler))
         class(tree) <- 'multiPhylo'
-    } else if (class(tree) == 'treedata') {
+    } else if (inherits(tree, 'treedata')) {
         tree@phylo$edge.length <- tree@phylo$edge.length * scaler
         for (col in colnames(tree@data)) {
             for (prefix in c("height", "rate", "length")) {
